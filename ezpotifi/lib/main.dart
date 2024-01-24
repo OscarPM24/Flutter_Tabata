@@ -11,6 +11,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final player = AudioPlayer();
+
     return MaterialApp(
       home: Scaffold(
         body: Center(
@@ -20,14 +22,15 @@ class _MyAppState extends State<MyApp> {
               IconButton.filled(
                   icon: const Icon(Icons.arrow_right),
                   onPressed: () {
-                    final player = AudioCache();
                     // player.setSource(AssetSource('coin.wav'));
+                    player.play(AssetSource('sound.mp3'));
                     print("Start");
                   }),
               SizedBox(width: 10),
               IconButton.filled(
                 icon: const Icon(Icons.crop_square),
                 onPressed: () {
+                  player.pause();
                   print("Stop");
                 },
               ),
