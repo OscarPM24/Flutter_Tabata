@@ -11,7 +11,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final int _duration = 10;
+  final int _duration = 5;
   final CountDownController _controller = CountDownController();
 
   @override
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                 textFormat: CountdownTextFormat.S,
 
                 // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
-                isReverse: false,
+                isReverse: true,
 
                 // Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
                 isReverseAnimation: false,
@@ -112,19 +112,13 @@ class _MyAppState extends State<MyApp> {
               the default behavior.
           */
                 timeFormatterFunction: (defaultFormatterFunction, duration) {
-                  if (duration.inSeconds == 0) {
-                    // only format for '0'
-                    return "Start";
-                  } else {
-                    // other durations by it's default format
-                    return Function.apply(defaultFormatterFunction, [duration]);
-                  }
+                  return Function.apply(defaultFormatterFunction, [duration]);
                 },
               ),
               FloatingActionButton(
                 onPressed: () {
                   _controller.start();
-                  player.play(AssetSource('sound.mp3'));
+                  // player.play(AssetSource('sound.mp3'));
                 },
                 tooltip: 'Start Countdown',
                 child: Icon(Icons.timer),
@@ -133,7 +127,7 @@ class _MyAppState extends State<MyApp> {
                   icon: const Icon(Icons.arrow_right),
                   onPressed: () {
                     // player.setSource(AssetSource('coin.wav'));
-                    player.play(AssetSource('sound.mp3'));
+                    // player.play(AssetSource('sound.mp3'));
                     print("Start");
                   }),
               SizedBox(width: 10),
