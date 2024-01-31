@@ -101,9 +101,9 @@ class _MyAppState extends State<MyApp> {
                   debugPrint('Countdown Started');
                   player.stop();
                   if (cicle % 2 != 0) {
-                    player.play(AssetSource('sound.mp3'));
+                    player.play(AssetSource('fireball.mp3'));
                   } else {
-                    player.play(AssetSource('coins.wav'));
+                    player.play(AssetSource('naruto.mp3'));
                   }
                 },
 
