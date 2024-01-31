@@ -11,8 +11,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final int _duration = 5;
+  int duration = 5;
   final CountDownController _controller = CountDownController();
+  int comptador = 0;
+  int cicle = 1;
+  bool cicleFort = true;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +24,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(comptador.toString() + "/4"),
               CircularCountDownTimer(
                 // Countdown duration in Seconds.
-                duration: _duration,
+                duration: duration,
 
                 // Countdown initial elapsed Duration in Seconds.
                 initialDuration: 0,
@@ -90,12 +94,32 @@ class _MyAppState extends State<MyApp> {
                 onStart: () {
                   // Here, do whatever you want
                   debugPrint('Countdown Started');
+                  player.stop();
+                  if (cicle % 2 != 0) {
+                    player.play(AssetSource('sound.mp3'));
+                  } else {
+                    player.play(AssetSource('coins.wav'));
+                  }
                 },
 
                 // This Callback will execute when the Countdown Ends.
                 onComplete: () {
                   // Here, do whatever you want
                   debugPrint('Countdown Ended');
+                  if (comptador < 4) {
+                    print(comptador);
+                    cicle++;
+                    if (cicleFort) {
+                      cicleFort = false;
+                      comptador++;
+                      _controller.restart(duration: 4);
+                    } else {
+                      cicleFort = true;
+                      _controller.restart(duration: 5);
+                    }
+                  } else {
+                    player.stop();
+                  }
                 },
 
                 // This Callback will execute when the Countdown Changes.
@@ -122,21 +146,6 @@ class _MyAppState extends State<MyApp> {
                 },
                 tooltip: 'Start Countdown',
                 child: Icon(Icons.timer),
-              ),
-              IconButton.filled(
-                  icon: const Icon(Icons.arrow_right),
-                  onPressed: () {
-                    // player.setSource(AssetSource('coin.wav'));
-                    // player.play(AssetSource('sound.mp3'));
-                    print("Start");
-                  }),
-              SizedBox(width: 10),
-              IconButton.filled(
-                icon: const Icon(Icons.crop_square),
-                onPressed: () {
-                  player.pause();
-                  print("Stop");
-                },
               ),
             ],
           ),
