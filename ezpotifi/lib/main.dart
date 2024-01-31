@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int duration = 5;
   final CountDownController _controller = CountDownController();
-  int comptador = 0;
+  int comptador = 1;
   int cicle = 1;
   bool cicleFort = true;
 
@@ -27,7 +27,12 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(comptador.toString() + "/4"),
+              Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    '$comptador/4 #',
+                    style: TextStyle(fontSize: 50),
+                  )),
               CircularCountDownTimer(
                 // Countdown duration in Seconds.
                 duration: duration,
@@ -106,7 +111,7 @@ class _MyAppState extends State<MyApp> {
                 onComplete: () {
                   // Here, do whatever you want
                   debugPrint('Countdown Ended');
-                  if (comptador < 4) {
+                  if (comptador <= 4) {
                     print(comptador);
                     cicle++;
                     if (cicleFort) {
@@ -139,14 +144,16 @@ class _MyAppState extends State<MyApp> {
                   return Function.apply(defaultFormatterFunction, [duration]);
                 },
               ),
-              FloatingActionButton(
-                onPressed: () {
-                  _controller.start();
-                  // player.play(AssetSource('sound.mp3'));
-                },
-                tooltip: 'Start Countdown',
-                child: Icon(Icons.timer),
-              ),
+              Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      _controller.start();
+                      // player.play(AssetSource('sound.mp3'));
+                    },
+                    tooltip: 'Start Countdown',
+                    child: Icon(Icons.timer),
+                  )),
             ],
           ),
         ),
