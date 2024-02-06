@@ -10,17 +10,25 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+class Comptador extends ChangeNotifier {
+  int _comptador = 1;
+  _incrementComptador() {
+    _comptador++;
+    notifyListeners();
+  }
+}
+
 class _MyAppState extends State<MyApp> {
   int duration = 5;
   final CountDownController _controller = CountDownController();
-  int comptador = 1;
+  final counter = Comptador();
   int cicle = 1;
   bool cicleFort = true;
 
   @override
   Widget build(BuildContext context) {
     final player = AudioPlayer();
-
+    String text = '${counter._comptador}/4 #';
     return MaterialApp(
       home: Scaffold(
         body: Center(
@@ -30,7 +38,7 @@ class _MyAppState extends State<MyApp> {
               Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
-                    '$comptador/4 #',
+                    text,
                     style: TextStyle(fontSize: 50),
                   )),
               CircularCountDownTimer(
@@ -111,16 +119,18 @@ class _MyAppState extends State<MyApp> {
                 onComplete: () {
                   // Here, do whatever you want
                   debugPrint('Countdown Ended');
-                  if (comptador <= 4) {
-                    print(comptador);
+                  if (counter._comptador <= 4) {
                     cicle++;
                     if (cicleFort) {
                       cicleFort = false;
-                      comptador++;
-                      _controller.restart(duration: 4);
+                      counter._incrementComptador();
+                      _controller.restart(duration: 5);
                     } else {
                       cicleFort = true;
-                      _controller.restart(duration: 5);
+                      _controller.restart(duration: 4);
+                      setState(() {
+                        text = '${counter._comptador}/4#';
+                      });
                     }
                   } else {
                     player.stop();
@@ -149,7 +159,6 @@ class _MyAppState extends State<MyApp> {
                   child: FloatingActionButton(
                     onPressed: () {
                       _controller.start();
-                      // player.play(AssetSource('sound.mp3'));
                     },
                     tooltip: 'Start Countdown',
                     child: Icon(Icons.timer),
