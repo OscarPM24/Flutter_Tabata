@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final player = AudioPlayer();
+    final player = AudioPlayer(); //crear més d'una instància
     String text = '${counter._comptador}/4 #';
     return MaterialApp(
       home: Scaffold(
@@ -108,6 +108,7 @@ class _MyAppState extends State<MyApp> {
                   // Here, do whatever you want
                   debugPrint('Countdown Started');
                   player.stop();
+                  print(cicle);
                   if (cicle % 2 != 0) {
                     player.play(AssetSource('fireball.mp3'));
                   } else {
@@ -156,12 +157,25 @@ class _MyAppState extends State<MyApp> {
               ),
               Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _controller.start();
-                    },
-                    tooltip: 'Start Countdown',
-                    child: Icon(Icons.timer),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          _controller.start();
+                        },
+                        tooltip: 'Start Countdown',
+                        child: Icon(Icons.timer),
+                      ),
+                      SizedBox(width: 10, height: 10),
+                      FloatingActionButton(
+                        onPressed: () {
+                          _controller.pause();
+                        },
+                        tooltip: 'Stop Countdown',
+                        child: Icon(Icons.pause),
+                      ),
+                    ],
                   )),
             ],
           ),
